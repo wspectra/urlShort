@@ -1,1 +1,4 @@
-bind_port = "8080"
+bind_port = ":8080"
+debug_level = "info"
+
+store = "inmemory"
