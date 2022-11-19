@@ -1,6 +1,6 @@
 package store
 
 type Store interface {
-	GetInfo(find string) string
-	PostInfo(info string) string
+	GetInfo(find string) (string, error)
+	PostInfo(info string) (string, error)
 }

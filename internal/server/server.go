@@ -30,7 +30,8 @@ func (s *ApiServer) Start() error {
 }
 
 func (s *ApiServer) configureRouter() {
-	s.router.HandleFunc("/hello", s.handleHello())
+	s.router.HandleFunc("/get", s.handleGet()).Methods("GET")
+	s.router.HandleFunc("/post", s.handlePost()).Methods("POST")
 }
 
 func (s *ApiServer) settingStore() {
@@ -43,24 +44,46 @@ func (s *ApiServer) settingStore() {
 
 }
 
-type Url struct {
+type RequestStruct struct {
 	Url string
 }
 
-func (s *ApiServer) handleHello() http.HandlerFunc {
-
+func (s *ApiServer) handlePost() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		url := Url{}
-		json.NewDecoder(r.Body).Decode(&url)
-		switch r.Method {
-		case "POST":
-			url.Url = s.Store.PostInfo(url.Url)
-			w.Write([]byte(url.Url))
-		case "GET":
-			url.Url = s.Store.GetInfo(url.Url)
-			w.Write([]byte(url.Url))
-		default:
-			log.Error().Msg("[REQUEST]: wrong request")
+		reqStruct := RequestStruct{}
+		if err := json.NewDecoder(r.Body).Decode(&reqStruct); err != nil {
+			log.Fatal().Msg(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		reqStruct.Url, _ = s.Store.PostInfo(reqStruct.Url)
+		if _, err := w.Write([]byte(reqStruct.Url)); err != nil { ///надо ли это?????
+			log.Error().Msg(err.Error())
+		}
+	}
+}
+
+func (s *ApiServer) handleGet() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		reqStruct := RequestStruct{}
+		if err := json.NewDecoder(r.Body).Decode(&reqStruct); err != nil {
+			log.Error().Msg("[REQUEST]: incorrect request body")
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		var err error
+		if reqStruct.Url, err = s.Store.GetInfo(reqStruct.Url); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			if _, err := w.Write([]byte(err.Error())); err != nil { ///надо ли это?????
+				log.Error().Msg("[REQUEST]: incorrect request body")
+			}
+			return
+		}
+
+		if _, err := w.Write([]byte(reqStruct.Url)); err != nil { ///надо ли это?????
+			log.Error().Msg(err.Error())
 		}
 	}
 }

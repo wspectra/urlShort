@@ -1,15 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"github.com/rs/zerolog/log"
 	"github.com/wspectra/urlShort/internal/server"
 	"github.com/wspectra/urlShort/internal/store"
-	"strings"
 )
 
 func Shout(a store.Store) {
-	fmt.Println(strings.ToUpper(a.PostInfo("biba")))
 
 }
 
