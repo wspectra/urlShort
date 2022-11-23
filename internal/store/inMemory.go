@@ -3,7 +3,7 @@ package store
 import (
 	"errors"
 	"github.com/rs/zerolog/log"
-	"github.com/wspectra/urlShort/urlShort/internal/pkg/utils"
+	"github.com/wspectra/urlShort/internal/pkg/utils"
 )
 
 type InMemory struct {

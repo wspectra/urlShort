@@ -5,8 +5,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
-	"github.com/wspectra/urlShort/urlShort/internal/config"
-	store2 "github.com/wspectra/urlShort/urlShort/internal/store"
+	"github.com/wspectra/urlShort/internal/config"
+	store2 "github.com/wspectra/urlShort/internal/store"
 	"net/http"
 	"net/url"
 )
