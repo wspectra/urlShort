@@ -2,13 +2,8 @@ package main
 
 import (
 	"github.com/rs/zerolog/log"
-	"github.com/wspectra/urlShort/internal/server"
-	"github.com/wspectra/urlShort/internal/store"
+	"github.com/wspectra/urlShort/urlShort/internal/server"
 )
-
-func Shout(a store.Store) {
-
-}
 
 func main() {
 	s := server.NewServer()
