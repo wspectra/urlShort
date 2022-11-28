@@ -1,2 +1,2 @@
 all:
-	go build cmd/urlShort/main.go
+	go build -o urlShort cmd/urlShort/main.go

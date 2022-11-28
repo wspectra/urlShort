@@ -19,6 +19,8 @@ type Config struct {
 	BindPort   string `toml:"bind_port"`
 	DebugLevel string `toml:"debug_level"`
 	Store      string `toml:"store"`
+
+	DatabaseUrl string `toml:"database_url"` //сделать красивее
 }
 
 func NewConfig() *Config {

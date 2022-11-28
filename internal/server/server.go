@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
 	"github.com/wspectra/urlShort/internal/config"
-	store2 "github.com/wspectra/urlShort/internal/store"
+	"github.com/wspectra/urlShort/internal/store"
 	"net/http"
 	"net/url"
 )
@@ -14,7 +14,7 @@ import (
 type ApiServer struct {
 	conf   *config.Config
 	router *mux.Router
-	Store  store2.Store
+	Store  store.Store
 }
 
 func NewServer() *ApiServer {
@@ -27,7 +27,7 @@ func NewServer() *ApiServer {
 func (s *ApiServer) Start() error {
 	s.configureRouter()
 	log.Info().Msg("starting api server on  " + s.conf.BindPort)
-	s.settingStore()
+	s.configureStore()
 	return http.ListenAndServe(s.conf.BindPort, s.router)
 }
 
@@ -36,10 +36,18 @@ func (s *ApiServer) configureRouter() {
 	s.router.HandleFunc("/post", s.handlePost()).Methods("POST")
 }
 
-func (s *ApiServer) settingStore() {
+func (s *ApiServer) configureStore() {
+	log.Info().Msg("configuring store...")
 	switch s.conf.Store {
 	case "inmemory":
-		s.Store = store2.NewInMemory()
+		s.Store = store.NewInMemory()
+	case "postgres":
+		st := store.NewPstStore(s.conf)
+		if err := st.Open(); err != nil {
+			log.Fatal().Msg(err.Error())
+		}
+		s.Store = st
+		log.Info().Msg("[API-SERVER]: Successfuly connected to database")
 	default:
 		log.Fatal().Msg("[CONFIG]: wrong store flag")
 	}
