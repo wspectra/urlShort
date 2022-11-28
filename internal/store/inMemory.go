@@ -2,7 +2,6 @@ package store
 
 import (
 	"errors"
-	"github.com/rs/zerolog/log"
 	"github.com/wspectra/urlShort/internal/pkg/utils"
 )
 
@@ -20,13 +19,11 @@ func (inMem *InMemory) GetInfo(shortUrl string) (string, error) {
 			return key, nil
 		}
 	}
-	log.Info().Msg("[INMEMORY_STORE]: Long Url not found")
 	return "", errors.New("long Url not found")
 }
 
 func (inMem *InMemory) PostInfo(longUrl string) (string, error) {
 	if _, b := inMem.Data[longUrl]; b == true {
-		log.Info().Msg("[INMEMORY_STORE]: short url already exists")
 		return inMem.Data[longUrl], nil
 	}
 	inMem.Data[longUrl] = utils.GenerateRandomString()

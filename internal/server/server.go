@@ -85,7 +85,14 @@ func (s *ApiServer) handlePost() http.HandlerFunc {
 			return
 		}
 
-		reqStruct.Url, _ = s.Store.PostInfo(reqStruct.Url)
+		var err error
+		reqStruct.Url, err = s.Store.PostInfo(reqStruct.Url)
+		if err != nil {
+			log.Error().Msg(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		if _, err := w.Write([]byte(reqStruct.Url)); err != nil {
 			log.Error().Msg(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -102,6 +109,7 @@ func (s *ApiServer) handleGet() http.HandlerFunc {
 		longUrl, err := s.Store.GetInfo(shortUrl)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Error().Msg(err.Error())
 			return
 		}
 		http.Redirect(w, r, longUrl, http.StatusPermanentRedirect)
