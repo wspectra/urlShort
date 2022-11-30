@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"flag"
 	"github.com/BurntSushi/toml"
 	"github.com/rs/zerolog"
@@ -8,11 +9,13 @@ import (
 )
 
 var (
-	confPath string
+	confPath  string
+	storeFlag string
 )
 
 func init() {
 	flag.StringVar(&confPath, "config-path", "configs/config.toml", "config path")
+	flag.StringVar(&storeFlag, "store-flag", "postgres", "store flag")
 }
 
 type Config struct {
@@ -30,9 +33,24 @@ func NewConfig() *Config {
 		log.Fatal(err)
 	}
 	conf.setLogLevel()
+	if err := conf.checkingStoreFlag(); err != nil {
+		log.Fatal(errors.New("[CONFIG]: wrong store flag"))
+	}
 	return &conf
 }
 
+func (c *Config) checkingStoreFlag() error {
+	c.Store = storeFlag
+	switch c.Store {
+	case "inmemory":
+		return nil
+	case "postgres":
+		return nil
+	default:
+		return errors.New("[CONFIG]: wrong store flag")
+	}
+
+}
 func (c *Config) setLogLevel() {
 	switch c.DebugLevel {
 	case "info":

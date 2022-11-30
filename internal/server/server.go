@@ -48,8 +48,6 @@ func (s *ApiServer) configureStore() {
 		}
 		s.Store = st
 		log.Info().Msg("[API-SERVER]: Successfuly connected to database")
-	default:
-		log.Fatal().Msg("[CONFIG]: wrong store flag")
 	}
 
 }

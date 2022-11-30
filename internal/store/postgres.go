@@ -56,10 +56,10 @@ func (p *Postgres) PostInfo(info string) (string, error) {
 	sqlStatement := `
 	INSERT INTO urls (long_url, short_url)
 	VALUES ($1, $2)`
-	randomString := utils.GenerateRandomString()
-	_, err := p.db.Exec(sqlStatement, info, randomString)
+	shortUrl = utils.GenerateRandomString()
+	_, err := p.db.Exec(sqlStatement, info, shortUrl)
 	if err != nil {
 		return "", err
 	}
-	return randomString, nil
+	return shortUrl, nil
 }

@@ -1,6 +1,4 @@
 bind_port = ":8080"
 debug_level = "info"
 
-store = "postgres"
-
-database_url = "host=localhost dbname=urlshort sslmode=disable password=1231"
+database_url = "host=database dbname=urlshort sslmode=disable password=1231 user=wspectra"
