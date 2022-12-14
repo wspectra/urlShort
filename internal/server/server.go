@@ -64,7 +64,7 @@ func (s *ApiServer) handlePost() http.HandlerFunc {
 		//проверка JSON на ошибку декода
 		if err := json.NewDecoder(r.Body).Decode(&reqStruct); err != nil {
 			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -72,26 +72,25 @@ func (s *ApiServer) handlePost() http.HandlerFunc {
 		validate := validator.New()
 		if err := validate.Struct(reqStruct); err != nil {
 			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		//проверка ссылки на валидность
 		if _, err := url.ParseRequestURI(reqStruct.Url); err != nil {
 			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		var err error
-		reqStruct.Url, err = s.Store.PostInfo(reqStruct.Url)
+		shortUrl, err := s.Store.PostInfo(reqStruct.Url)
 		if err != nil {
 			log.Error().Msg(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		if _, err := w.Write([]byte(reqStruct.Url)); err != nil {
+		if _, err := w.Write([]byte(shortUrl)); err != nil {
 			log.Error().Msg(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}

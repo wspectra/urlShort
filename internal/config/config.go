@@ -9,12 +9,12 @@ import (
 )
 
 var (
-	confPath  string
+	ConfPath  string
 	storeFlag string
 )
 
 func init() {
-	flag.StringVar(&confPath, "config-path", "configs/config.toml", "config path")
+	flag.StringVar(&ConfPath, "config-path", "configs/config.toml", "config path")
 	flag.StringVar(&storeFlag, "store-flag", "postgres", "store flag")
 }
 
@@ -29,7 +29,7 @@ type Config struct {
 func NewConfig() *Config {
 	flag.Parse()
 	conf := Config{}
-	if _, err := toml.DecodeFile(confPath, &conf); err != nil {
+	if _, err := toml.DecodeFile(ConfPath, &conf); err != nil {
 		log.Fatal(err)
 	}
 	conf.setLogLevel()
@@ -59,6 +59,8 @@ func (c *Config) setLogLevel() {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	case "error":
 		zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+	case "disabled":
+		zerolog.SetGlobalLevel(zerolog.Disabled)
 	default:
 		log.Fatal("[CONFIG_ERROR]: wrong debug level")
 	}
