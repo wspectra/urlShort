@@ -10,16 +10,4 @@ func main() {
 	if err := s.Start(); err != nil {
 		log.Fatal().Msg(err.Error())
 	}
-
-	//mem := store.NewInMemory()
-
-	//fmt.Println("", mem.PostInfo("hello"))
-	//fmt.Println(mem.PostInfo("world"))
-	//fmt.Println(mem.GetInfo(mem.PostInfo("world")))
-	//fmt.Println(mem.GetInfo(mem.PostInfo("hello")))
-	//
-	//fmt.Println(mem.PostInfo("world"))
-	//fmt.Println(mem.GetInfo("Short"))
-
-	//Shout(mem)
 }

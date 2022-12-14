@@ -23,7 +23,13 @@ type Config struct {
 	DebugLevel string `toml:"debug_level"`
 	Store      string `toml:"store"`
 
-	DatabaseUrl string `toml:"database_url"` //сделать красивее
+	DatabaseUrl struct {
+		Host     string `toml:"host"`
+		Dbname   string `toml:"dbname"`
+		Sslmode  string `toml:"sslmode"`
+		Password string `toml:"password"`
+		User     string `toml:"user"`
+	} `toml:"database_url"`
 }
 
 func NewConfig() *Config {

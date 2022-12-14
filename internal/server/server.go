@@ -83,6 +83,7 @@ func (s *ApiServer) handlePost() http.HandlerFunc {
 			return
 		}
 
+		//проверка на ошибку записи
 		shortUrl, err := s.Store.PostInfo(reqStruct.Url)
 		if err != nil {
 			log.Error().Msg(err.Error())

@@ -51,7 +51,6 @@ func TestHandler_Get(t *testing.T) {
 
 			c := gomock.NewController(t)
 			defer c.Finish()
-
 			repo := mock_store.NewMockStore(c)
 			test.mockBehavior(repo, test.shortUrl)
 			server.Store = repo

@@ -1,4 +1,10 @@
 bind_port = ":8080"
 debug_level = "info"
 
-database_url = "host=database dbname=urlshort sslmode=disable password=1231 user=wspectra"
+[database_url]
+host = "database"
+dbname = "urlshort"
+sslmode = "disable"
+password = "1231"
+user = "wspectra"
+

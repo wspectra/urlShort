@@ -3,6 +3,7 @@ package store
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/wspectra/urlShort/internal/config"
 	"github.com/wspectra/urlShort/internal/pkg/utils"
 
@@ -19,7 +20,10 @@ func NewPstStore(conf *config.Config) *Postgres {
 }
 
 func (p *Postgres) Open() error {
-	db, err := sql.Open("postgres", p.conf.DatabaseUrl)
+	dataSourceName := fmt.Sprintf("host=%s dbname=%s sslmode=%s password=%s user=%s",
+		p.conf.DatabaseUrl.Host, p.conf.DatabaseUrl.Dbname, p.conf.DatabaseUrl.Sslmode,
+		p.conf.DatabaseUrl.Password, p.conf.DatabaseUrl.User)
+	db, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
 		return err
 	}

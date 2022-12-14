@@ -82,10 +82,8 @@ func TestHandler_Post(t *testing.T) {
 
 			c := gomock.NewController(t)
 			defer c.Finish()
-
 			repo := mock_store.NewMockStore(c)
 			test.mockBehavior(repo, test.inputUrl)
-
 			server.Store = repo
 
 			// Create Request
