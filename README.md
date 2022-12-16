@@ -5,7 +5,7 @@
 # Сервис принимает следующие запросы по http:
 1. Метод `POST`, который сохраняет оригинальный URL в базе и возврает сокращённый
 ----
-* **URL**: /post/
+* **URL**: /post
 *  **URL Params**: None
 * **Data Params**
    **Required:**
@@ -15,32 +15,33 @@
 * **Success Response:**
   * **Code:** 200 <br />
     **Content:** `{"Status":"success",
-    "Message":"rtr"}`
+    "Message":"rtr"}`<br />
     **Context:** `Success`
 
 * **Error Response:**
   * **Code:** 400 BAD REQUEST <br />
     **Content:** `{"Status":"fail",
-    "Message":"invalid character 'U' looking for beginning of value"}`
+    "Message":"invalid character 'U' looking for beginning of value"}`<br />
     **Context:** `invalid JSON`
+    
   OR
 
    * **Code:** 400 BAD REQUEST <br />
     **Content:** `{"Status":"fail",
-    "Message":"Key: 'RequestStruct.Url' Error:Field validation for 'Url' failed on the 'required' tag"}n`
+    "Message":"Key: 'RequestStruct.Url' Error:Field validation for 'Url' failed on the 'required' tag"}n`<br />
     **Context:** `wrong JSON structure`
 
   OR
 
    * **Code:** 400 BAD REQUEST <br />
     **Content:** `{"Status":"fail",
-    "Message":"parse \"qewerfwet\": invalid URI for request"}`
+    "Message":"parse \"qewerfwet\": invalid URI for request"}`<br />
     **Context:** `invalid URL`
 
   OR
      * **Code:** 500 INTERNAL SERVER ERROR <br />
       **Content:** `{"Status":"fail",
-      "Message":"parse \"qewerfwet\": invalid URI for request"}`
+      "Message":"parse \"qewerfwet\": invalid URI for request"}`<br />
       **Context:** `error during post in database`
 
 2. Метод Get, который принимает сокращённый URL и выполняет редирект на оригинальный URL
@@ -60,8 +61,8 @@
     **Content:** `{"Status":"fail",
     "Message":"long Url not found"}`
 # Хранилище
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;В качестве хранилища возможно использование in-memory решения и базы данных - postgresql. Какое хранилище использовать указывается параметром при запуске сервиса.
-![image](https://user-images.githubusercontent.com/80648065/155390687-8f427f70-a635-4e98-98f9-ee1aca628551.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;В качестве хранилища возможно использование in-memory решения и базы данных - postgresql. Какое хранилище использовать указывается параметром при запуске сервиса.<br />
+![image](https://user-images.githubusercontent.com/75119633/208161156-aa2dbb36-be9e-42c5-b165-48b081c415cd.jpg)
 # Usage
 По умолчанию поднимается контейнер в котором работает сервис
 
@@ -77,4 +78,4 @@
     
 ## Other
 **Author:**
-*[wspectra](https://github.com/wspectra)*
+:pig:**[wspectra](https://github.com/wspectra)**
