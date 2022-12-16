@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
 	"github.com/wspectra/urlShort/internal/config"
+	"github.com/wspectra/urlShort/internal/pkg/utils"
 	"github.com/wspectra/urlShort/internal/store"
 	"net/http"
 	"net/url"
@@ -63,38 +64,32 @@ func (s *ApiServer) handlePost() http.HandlerFunc {
 
 		//проверка JSON на ошибку декода
 		if err := json.NewDecoder(r.Body).Decode(&reqStruct); err != nil {
-			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			utils.HttpResponseWriter(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		//проверка JSON на валидность JSON
 		validate := validator.New()
 		if err := validate.Struct(reqStruct); err != nil {
-			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			utils.HttpResponseWriter(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		//проверка ссылки на валидность
 		if _, err := url.ParseRequestURI(reqStruct.Url); err != nil {
-			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			utils.HttpResponseWriter(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		//проверка на ошибку записи
+		//проверка на ошибку записи в базу
 		shortUrl, err := s.Store.PostInfo(reqStruct.Url)
 		if err != nil {
-			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			utils.HttpResponseWriter(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		if _, err := w.Write([]byte(shortUrl)); err != nil {
-			log.Error().Msg(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
+		utils.HttpResponseWriter(w, shortUrl, http.StatusOK)
+
 	}
 }
 
@@ -106,8 +101,7 @@ func (s *ApiServer) handleGet() http.HandlerFunc {
 
 		longUrl, err := s.Store.GetInfo(shortUrl)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			log.Error().Msg(err.Error())
+			utils.HttpResponseWriter(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		http.Redirect(w, r, longUrl, http.StatusPermanentRedirect)

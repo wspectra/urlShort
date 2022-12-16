@@ -32,7 +32,7 @@ func TestHandler_Post(t *testing.T) {
 				r.EXPECT().PostInfo(url).Return("rtr", nil)
 			},
 			expectedStatusCode:   200,
-			expectedResponseBody: "rtr",
+			expectedResponseBody: "{\"Status\":\"success\",\"Message\":\"rtr\"}\n",
 		},
 		{
 			name:      "invalid JSON",
@@ -41,7 +41,7 @@ func TestHandler_Post(t *testing.T) {
 			mockBehavior: func(r *mock_store.MockStore, url string) {
 			},
 			expectedStatusCode:   400,
-			expectedResponseBody: "invalid character 'U' looking for beginning of value\n",
+			expectedResponseBody: "{\"Status\":\"fail\",\"Message\":\"invalid character 'U' looking for beginning of value\"}\n",
 		},
 		{
 			name:      "wrong JSON structure",
@@ -49,8 +49,9 @@ func TestHandler_Post(t *testing.T) {
 			inputUrl:  "https://www.google.com/",
 			mockBehavior: func(r *mock_store.MockStore, url string) {
 			},
-			expectedStatusCode:   400,
-			expectedResponseBody: "Key: 'RequestStruct.Url' Error:Field validation for 'Url' failed on the 'required' tag\n",
+			expectedStatusCode: 400,
+			expectedResponseBody: "{\"Status\":\"fail\",\"Message\":\"Key: 'RequestStruct.Url' Error:Field validation " +
+				"for 'Url' failed on the 'required' tag\"}\n",
 		},
 		{
 			name:      "invalid URL",
@@ -59,7 +60,7 @@ func TestHandler_Post(t *testing.T) {
 			mockBehavior: func(r *mock_store.MockStore, url string) {
 			},
 			expectedStatusCode:   400,
-			expectedResponseBody: "parse \"qewerfwet\": invalid URI for request\n",
+			expectedResponseBody: "{\"Status\":\"fail\",\"Message\":\"parse \\\"qewerfwet\\\": invalid URI for request\"}\n",
 		},
 		{
 			name:      "postInfo error",
@@ -69,7 +70,7 @@ func TestHandler_Post(t *testing.T) {
 				r.EXPECT().PostInfo(url).Return("", errors.New("some error"))
 			},
 			expectedStatusCode:   500,
-			expectedResponseBody: "some error\n",
+			expectedResponseBody: "{\"Status\":\"fail\",\"Message\":\"some error\"}\n",
 		},
 	}
 

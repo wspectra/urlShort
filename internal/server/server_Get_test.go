@@ -35,10 +35,10 @@ func TestHandler_Get(t *testing.T) {
 			name:     "Url not found",
 			shortUrl: "",
 			mockBehavior: func(r *mock_store.MockStore, url string) {
-				r.EXPECT().GetInfo(url).Return("", errors.New("Url not found"))
+				r.EXPECT().GetInfo(url).Return("", errors.New("long Url not found"))
 			},
 			expectedStatusCode:   500,
-			expectedResponseBody: "Url not found\n",
+			expectedResponseBody: "{\"Status\":\"fail\",\"Message\":\"long Url not found\"}\n",
 		},
 	}
 
