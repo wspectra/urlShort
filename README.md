@@ -18,8 +18,8 @@
     **Content:** 
     ```json
     {
-    "Status":"success",
-    "Message":"rtr"
+      "Status":"success",
+      "Message":"rtr"
     }
     ```
 
@@ -93,7 +93,8 @@
   ```json
   {
     "Status":"fail",
-    "Message":"long Url not found"}
+    "Message":"long Url not found"
+  }
   ```
   
 
