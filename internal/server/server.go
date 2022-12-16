@@ -101,7 +101,7 @@ func (s *ApiServer) handleGet() http.HandlerFunc {
 
 		longUrl, err := s.Store.GetInfo(shortUrl)
 		if err != nil {
-			utils.HttpResponseWriter(w, err.Error(), http.StatusInternalServerError)
+			utils.HttpResponseWriter(w, err.Error(), http.StatusNotFound)
 			return
 		}
 		http.Redirect(w, r, longUrl, http.StatusPermanentRedirect)

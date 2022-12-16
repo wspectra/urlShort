@@ -10,39 +10,65 @@
 * **Data Params**
    **Required:**
    ```json
-  {"Url":"ссылка"}
+  {  "Url":"ссылка"  }
   ```
-* **Success Response:**
+# Success Response:
   * **Code:** 200 <br />
-    **Content:** `{"Status":"success",
-    "Message":"rtr"}`<br />
-    **Context:** `Success`
+    **Context:** `Success`<br />
+    **Content:** 
+    ```json
+    {
+    "Status":"success",
+    "Message":"rtr"
+    }
+    ```
 
-* **Error Response:**
+
+# Error Response:
   * **Code:** 400 BAD REQUEST <br />
-    **Content:** `{"Status":"fail",
-    "Message":"invalid character 'U' looking for beginning of value"}`<br />
-    **Context:** `invalid JSON`
+    **Context:** `invalid JSON` <br />
+    **Content:** 
+    ```json
+    {
+      "Status":"fail",
+      "Message":"invalid character 'U' looking for beginning of value"
+    }
+    ```
     
   OR
 
-   * **Code:** 400 BAD REQUEST <br />
-    **Content:** `{"Status":"fail",
-    "Message":"Key: 'RequestStruct.Url' Error:Field validation for 'Url' failed on the 'required' tag"}n`<br />
-    **Context:** `wrong JSON structure`
+* **Code:** 400 BAD REQUEST <br />
+  **Context:** `wrong JSON structure`<br />
+**Content:**
+   ```json
+     {
+       "Status":"fail",
+       "Message":"Key: 'RequestStruct.Url' Error:Field validation for 'Url' failed on the 'required' tag"
+     }
+    ```
 
   OR
 
    * **Code:** 400 BAD REQUEST <br />
-    **Content:** `{"Status":"fail",
-    "Message":"parse \"qewerfwet\": invalid URI for request"}`<br />
-    **Context:** `invalid URL`
+     **Context:** `invalid URL`<br />
+    **Content:**
+  ```json
+  {
+    "Status":"fail",
+    "Message":"parse \"qewerfwet\": invalid URI for request"
+  }
+   ```
 
   OR
      * **Code:** 500 INTERNAL SERVER ERROR <br />
-      **Content:** `{"Status":"fail",
-      "Message":"parse \"qewerfwet\": invalid URI for request"}`<br />
-      **Context:** `error during post in database`
+  **Context:** `error during post in database`<br />
+      **Content:**
+  ```json
+  {
+    "Status":"fail",
+    "Message":"parse \"qewerfwet\": invalid URI for request"
+  }
+  ```
 
 2. Метод Get, который принимает сокращённый URL и выполняет редирект на оригинальный URL
 ----
@@ -53,13 +79,24 @@
 
 * **Success Response:**
   * **Code:** 303 SEE OTHER <br />
-    **Content:** `{"Status":"fail",
-    "Message":<a href="исходная ссылка">See Other</a>."}`
+    **Content:**
+  ```json
+  {
+    "Status":"fail",
+    "Message":<a href="исходная ссылка">See Other</a>."
+  }
+  ```
 
 * **Error Response:**
   * **Code:** 404 NOT FOUND <br />
-    **Content:** `{"Status":"fail",
-    "Message":"long Url not found"}`
+    **Content:**
+  ```json
+  {
+    "Status":"fail",
+    "Message":"long Url not found"}
+  ```
+  
+
 # Хранилище
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;В качестве хранилища возможно использование in-memory решения и базы данных - postgresql. Какое хранилище использовать указывается параметром при запуске сервиса.<br />
 ![image](https://user-images.githubusercontent.com/75119633/208161156-aa2dbb36-be9e-42c5-b165-48b081c415cd.jpg)
