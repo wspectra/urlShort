@@ -100,7 +100,7 @@
 
 # Хранилище
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;В качестве хранилища возможно использование in-memory решения и базы данных - postgresql. Какое хранилище использовать указывается параметром при запуске сервиса.<br />
-![image](https://user-images.githubusercontent.com/75119633/208161156-aa2dbb36-be9e-42c5-b165-48b081c415cd.jpg)
+  ![image](https://user-images.githubusercontent.com/75119633/208161156-aa2dbb36-be9e-42c5-b165-48b081c415cd.jpg)
 # Usage
 По умолчанию поднимается контейнер в котором работает сервис
 
