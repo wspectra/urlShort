@@ -8,7 +8,13 @@ build:
 inmemory:
 	go run cmd/urlShort/main.go -store-flag "inmemory"
 
+test:
+	-go test ./internal/server/... -v
+
+status:
+	docker ps -a
 
 clean:
 	- docker-compose down
-	- docker volume rm $$(docker volume ls -q)
+
+.PHONY: all build inmemory test clean status
