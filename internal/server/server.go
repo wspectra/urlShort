@@ -53,14 +53,12 @@ func (s *ApiServer) configureStore() {
 
 }
 
-type RequestStruct struct {
-	Url string `json:"Url" validate:"required"`
-}
-
 func (s *ApiServer) handlePost() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		reqStruct := RequestStruct{}
+		reqStruct := struct {
+			Url string `json:"Url" validate:"required"`
+		}{}
 
 		//проверка JSON на ошибку декода
 		if err := json.NewDecoder(r.Body).Decode(&reqStruct); err != nil {
