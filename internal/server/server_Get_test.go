@@ -26,10 +26,10 @@ func TestHandler_Get(t *testing.T) {
 			name:     "ok",
 			shortUrl: "",
 			mockBehavior: func(r *mock_store.MockStore, url string) {
-				r.EXPECT().GetInfo(url).Return("http://google.com", nil)
+				r.EXPECT().GetInfo(url).Return("https://www.google.com/", nil)
 			},
 			expectedStatusCode:   308,
-			expectedResponseBody: "<a href=\"http://google.com\">Permanent Redirect</a>.\n\n",
+			expectedResponseBody: "<a href=\"https://www.google.com/\">Permanent Redirect</a>.\n\n",
 		},
 		{
 			name:     "Url not found",

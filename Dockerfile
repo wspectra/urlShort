@@ -7,6 +7,3 @@ FROM debian:buster
 COPY --from=builder build/urlShort .
 COPY  --from=builder build/configs ./configs
 CMD ["./urlShort"]
-
-#ENTRYPOINT ["tail"]
-#CMD ["-f","/dev/null"]

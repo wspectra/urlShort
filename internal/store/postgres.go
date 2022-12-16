@@ -27,6 +27,7 @@ func (p *Postgres) Open() error {
 	if err != nil {
 		return err
 	}
+
 	if err := db.Ping(); err != nil {
 		return err
 	}
@@ -40,29 +41,24 @@ func (p *Postgres) GetInfo(find string) (string, error) {
 		long_url  string
 		short_url string
 	)
-	if err := p.db.QueryRow(
-		"SELECT long_url, short_url FROM urls where short_url = $1",
-		find).Scan(&long_url, &short_url); err != nil {
+
+	if err := p.db.QueryRow("SELECT long_url, short_url FROM urls where short_url = $1", find).Scan(&long_url, &short_url); err != nil {
 		return "", errors.New("longUrl not found")
 	}
+
 	return long_url, nil
 }
 
 func (p *Postgres) PostInfo(info string) (string, error) {
 	//проверка на наличие ссылки в базе
 	var shortUrl string
-	if err := p.db.QueryRow(
-		"SELECT  short_url FROM urls where long_url = $1",
-		info).Scan(&shortUrl); err == nil {
+	if err := p.db.QueryRow("SELECT  short_url FROM urls where long_url = $1", info).Scan(&shortUrl); err == nil {
 		return shortUrl, nil
 	}
 
-	sqlStatement := `
-	INSERT INTO urls (long_url, short_url)
-	VALUES ($1, $2)`
+	//создание новой записим в базе
 	shortUrl = utils.GenerateRandomString()
-	_, err := p.db.Exec(sqlStatement, info, shortUrl)
-	if err != nil {
+	if _, err := p.db.Exec("INSERT INTO urls (long_url, short_url) VALUES ($1, $2)", info, shortUrl); err != nil {
 		return "", err
 	}
 	return shortUrl, nil

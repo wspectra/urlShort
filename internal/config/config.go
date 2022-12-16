@@ -35,13 +35,16 @@ type Config struct {
 func NewConfig() *Config {
 	flag.Parse()
 	conf := Config{}
+
 	if _, err := toml.DecodeFile(ConfPath, &conf); err != nil {
 		log.Fatal(err)
 	}
+
 	conf.setLogLevel()
 	if err := conf.checkingStoreFlag(); err != nil {
 		log.Fatal(errors.New("[CONFIG]: wrong store flag"))
 	}
+
 	return &conf
 }
 

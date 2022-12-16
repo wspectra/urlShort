@@ -26,8 +26,8 @@ func TestHandler_Post(t *testing.T) {
 	}{
 		{
 			name:      "ok",
-			inputBody: `{"Url":"http://google.com"}`,
-			inputUrl:  "http://google.com",
+			inputBody: `{"Url":"https://www.google.com/"}`,
+			inputUrl:  "https://www.google.com/",
 			mockBehavior: func(r *mock_store.MockStore, url string) {
 				r.EXPECT().PostInfo(url).Return("rtr", nil)
 			},
@@ -36,7 +36,7 @@ func TestHandler_Post(t *testing.T) {
 		},
 		{
 			name:      "invalid JSON",
-			inputBody: `Url":"http://google.com"}`,
+			inputBody: `Url":"https://www.google.com/"}`,
 			inputUrl:  "",
 			mockBehavior: func(r *mock_store.MockStore, url string) {
 			},
@@ -45,8 +45,8 @@ func TestHandler_Post(t *testing.T) {
 		},
 		{
 			name:      "wrong JSON structure",
-			inputBody: `{"myUrl":"http://google.com"}`,
-			inputUrl:  "http://google.com",
+			inputBody: `{"myUrl":"https://www.google.com/"}`,
+			inputUrl:  "https://www.google.com/",
 			mockBehavior: func(r *mock_store.MockStore, url string) {
 			},
 			expectedStatusCode:   400,
@@ -63,8 +63,8 @@ func TestHandler_Post(t *testing.T) {
 		},
 		{
 			name:      "postInfo error",
-			inputBody: `{"Url":"http://google.com"}`,
-			inputUrl:  "http://google.com",
+			inputBody: `{"Url":"https://www.google.com/"}`,
+			inputUrl:  "https://www.google.com/",
 			mockBehavior: func(r *mock_store.MockStore, url string) {
 				r.EXPECT().PostInfo(url).Return("", errors.New("some error"))
 			},
